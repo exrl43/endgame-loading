@@ -4,15 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#000000">
-  <meta name="description" content="ENDGAME menu animated loading screen">
+  <meta name="description" content="ENDGAME animated loading screen">
   <title>ENDGAME — Loading</title>
-  <link rel="preload" href="background.mp4" as="video" type="video/mp4">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20261103b">
 </head>
 <body>
-  <video id="background" autoplay muted playsinline preload="auto" poster="poster.png" aria-label="ENDGAME loading animation">
-    <source src="background.mp4" type="video/mp4">
+  <!-- The illustrated bar is already animated inside the MP4. No extra HTML bar. -->
+  <video id="background" autoplay muted playsinline preload="auto" aria-label="ENDGAME loading animation">
+    <source src="background.mp4?v=20261103b" type="video/mp4">
   </video>
-  <script src="app.js"></script>
+  <script src="app.js?v=20261103b"></script>
 </body>
 </html>
