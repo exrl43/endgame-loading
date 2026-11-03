@@ -1,31 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ENDGAME</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="ENDGAME menu animated loading screen">
+  <title>ENDGAME — Loading</title>
+  <link rel="preload" href="background.mp4" as="video" type="video/mp4">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <video id="bg" autoplay muted playsinline preload="auto">
-    <source src="background.mp4" type="video/mp4" />
+  <video id="background" autoplay muted playsinline preload="auto" poster="poster.png" aria-label="ENDGAME loading animation">
+    <source src="background.mp4" type="video/mp4">
   </video>
-
-  <div class="shade"></div>
-
-  <main class="hud">
-    <div class="brand">ENDGAME</div>
-    <div class="subtitle">INITIALIZING MENU</div>
-
-    <div class="loader">
-      <div class="bar"><div id="fill"></div></div>
-      <div class="row">
-        <span id="status">Loading...</span>
-        <span id="percent">0%</span>
-      </div>
-    </div>
-  </main>
-
   <script src="app.js"></script>
 </body>
 </html>
