@@ -1,5 +1,4 @@
-// Self-contained video player; no additional loading bar overlay.
-// The loading bar and fade are baked into background.mp4.
+// Simple self-contained background video player.
 (() => {
   'use strict';
   const video = document.getElementById('background');
@@ -10,7 +9,7 @@
   const start = () => {
     const result = video.play();
     if (result && typeof result.catch === 'function') {
-      result.catch(() => { /* poster remains visible if autoplay is blocked */ });
+      result.catch(() => {});
     }
   };
   if (document.readyState === 'loading') {
