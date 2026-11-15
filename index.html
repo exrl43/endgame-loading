@@ -1,116 +1,152 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="theme-color" content="#08040f" />
-  <meta name="description" content="ENDGAME — EXRL loading screen." />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ENDGAME — EXRL loading screen.">
   <title>ENDGAME — EXRL</title>
-  <style>
-    :root {
-      --ink: #f3efff;
-      --dim: rgba(245,239,255,.62);
-      --violet: #a774ff;
-      --line: rgba(250,247,255,.9);
+  <script>
+    if (window.self !== window.top || new URLSearchParams(location.search).has('overlay')) {
+      document.documentElement.classList.add('overlay');
     }
-    * {box-sizing:border-box}
-    html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#08040f}
-    body {font-family:Consolas,"Courier New",monospace;color:var(--ink)}
-    .scene{position:fixed;inset:0;overflow:hidden;isolation:isolate;background:#05030a}
-    /* The artwork is the EXACT original uploaded PNG. No filters or transforms. */
-    .artwork{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;object-position:center;user-select:none;-webkit-user-drag:none}
-    /* Only the website overlay is animated; artwork pixels never change. */
-    .fade{position:absolute;pointer-events:none;inset:auto 0 0;height:24%;z-index:1;background:linear-gradient(0deg,rgba(5,3,10,.77) 0%,rgba(5,3,10,.30) 40%,transparent 100%)}
-    .loading{position:absolute;z-index:2;left:50%;bottom:clamp(20px,4vh,50px);transform:translateX(-50%);width:min(660px,calc(100% - 38px));text-shadow:0 2px 7px rgba(0,0,0,.85);filter:drop-shadow(0 4px 12px rgba(0,0,0,.65))}
-    .topline{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:15px}
-    .phase{font-size:clamp(11px,1.15vw,13px);font-weight:700;letter-spacing:.39em;line-height:1.35;color:#faf9ff;text-transform:uppercase}
-    .note{font-size:clamp(11px,1.1vw,13px);letter-spacing:.065em;line-height:1.5;color:#d8cee4;margin-top:5px;text-transform:lowercase}
-    .ellipsis::after{content:'';display:inline-block;width:15px;animation:cursor 1.2s steps(1) infinite}
-    @keyframes cursor{0%,48%{opacity:0}49%,100%{opacity:1}}
-    .pct{font-size:clamp(13px,1.25vw,15px);font-weight:600;letter-spacing:.15em;color:#fff;font-variant-numeric:tabular-nums;min-width:48px;text-align:right}
-    .bar{position:relative;width:100%;height:3px;background:rgba(245,239,255,.22);box-shadow:0 0 1px rgba(255,255,255,.6),0 2px 7px rgba(0,0,0,.8)}
-    .fill{position:absolute;left:0;top:0;bottom:0;width:8%;background:#f7f5ff;box-shadow:0 0 9px rgba(223,208,255,.95),0 0 21px rgba(160,107,255,.6);transition:width .10s linear}
-    .tip{position:absolute;right:-2px;top:-3px;width:3px;height:9px;background:#fff;box-shadow:0 0 13px 3px rgba(194,157,255,.8)}
-    .ticks{height:26px;display:flex;justify-content:center;align-items:center;gap:11px;margin-top:22px;opacity:.9}
-    .tick{display:block;width:3px;height:17px;background:rgba(248,246,255,.45);box-shadow:0 0 5px rgba(187,148,255,.16);transform:scaleY(.58);transform-origin:center;animation:tickPulse 1.35s ease-in-out infinite;animation-delay:calc(var(--i)*-0.087s)}
-    .tick:nth-child(3n){height:11px}
-    @keyframes tickPulse{0%,100%{transform:scaleY(.45);opacity:.4}45%{transform:scaleY(1.1);opacity:1;background:#fff;box-shadow:0 0 10px rgba(199,163,255,.95)}}
-    .scanlight{position:absolute;top:-7px;left:0;width:100%;height:17px;opacity:.3;background:linear-gradient(90deg,transparent 10%,rgba(255,255,255,.25) 40%,transparent 60%);transform:translateX(-120%);animation:sweep 5s linear infinite;pointer-events:none}
-    @keyframes sweep{to{transform:translateX(120%)}}
-    @media(max-width:640px){.fade{height:28%}.loading{bottom:32px}.topline{margin-bottom:13px}.phase{letter-spacing:.25em}.ticks{margin-top:17px;gap:8px}.tick{width:2px;height:14px}}
-    @media(prefers-reduced-motion:reduce){.tick,.scanlight,.ellipsis::after{animation:none}}
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      background: transparent;
+      font-family: Consolas, "Courier New", monospace;
+      color: #f3f9f5;
+    }
+    .scene {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+    }
+    html:not(.overlay) .scene {
+      background: #08060d url("./exrl_crew.png") center / contain no-repeat;
+    }
+    .scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.28);
+      pointer-events: none;
+    }
+    .loading {
+      position: relative;
+      width: min(360px, 78%);
+      text-shadow: 0 1px 3px #000, 0 0 10px rgba(0, 0, 0, 0.65);
+    }
+    .menu-name {
+      margin: 0 0 22px;
+      font: 600 26px/1 "Arial Narrow", system-ui, sans-serif;
+      letter-spacing: 0.17em;
+    }
+    .bar {
+      height: 3px;
+      overflow: hidden;
+      background: rgba(211, 232, 223, 0.35);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+    .fill {
+      height: 100%;
+      background: #72f5c2;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-top: 13px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    #percent {
+      color: #a1ffda;
+      font-variant-numeric: tabular-nums;
+    }
   </style>
 </head>
 <body>
   <main class="scene" aria-label="EXRL Endgame loading screen">
-    <img class="artwork" src="./exrl_tattoo_crew.png" onerror="this.onerror=null;this.src='./exrl_crew.png'" alt="ENDGAME tattoo crew group photo." draggable="false" />
-    <div class="fade" aria-hidden="true"></div>
-    <section class="loading" aria-label="Loading animation">
-      <div class="topline">
-        <div>
-          <div class="phase" id="phase">INITIALIZING</div>
-          <div class="note" id="note">preparing interface...</div>
-        </div>
-        <span class="pct" id="percent">8%</span>
+    <section class="loading" aria-labelledby="menu-name">
+      <h1 class="menu-name" id="menu-name">ENDGAME</h1>
+      <div class="bar" id="progressbar" role="progressbar" aria-label="Menu loading progress"
+           aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="fill" id="fill"></div>
       </div>
-      <div class="bar" role="progressbar" aria-label="Visual loading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="8" id="progressbar">
-        <div class="fill" id="fill"><i class="tip"></i></div>
-        <span class="scanlight" aria-hidden="true"></span>
-      </div>
-      <div class="ticks" aria-hidden="true">
-        <span class="tick" style="--i:0"></span><span class="tick" style="--i:1"></span><span class="tick" style="--i:2"></span><span class="tick" style="--i:3"></span><span class="tick" style="--i:4"></span><span class="tick" style="--i:5"></span><span class="tick" style="--i:6"></span><span class="tick" style="--i:7"></span><span class="tick" style="--i:8"></span><span class="tick" style="--i:9"></span><span class="tick" style="--i:10"></span><span class="tick" style="--i:11"></span><span class="tick" style="--i:12"></span><span class="tick" style="--i:13"></span><span class="tick" style="--i:14"></span><span class="tick" style="--i:15"></span>
+      <div class="status-row">
+        <span id="phase" role="status">Initializing…</span>
+        <span id="percent" aria-hidden="true">0%</span>
       </div>
     </section>
   </main>
   <script>
-    (()=>{
-      'use strict';
-      const phase=document.getElementById('phase');
-      const note=document.getElementById('note');
-      const percent=document.getElementById('percent');
-      const fill=document.getElementById('fill');
-      const bar=document.getElementById('progressbar');
-      const length=15500,hold=1800;
-      let started=performance.now(),realProgress=null,finished=false;
-      let shown=-1,phaseShown='';
-      const phases=[
-        {until:24,title:'INITIALIZING',note:'preparing interface...'},
-        {until:51,title:'SYNCING',note:'loading assets...'},
-        {until:77,title:'CONFIGURING',note:'checking modules...'},
-        {until:99,title:'FINALIZING',note:'last rites...'},
-        {until:101,title:'ENDGAME READY',note:'interface ready...'}
+    (() => {
+      const phase = document.getElementById('phase');
+      const percent = document.getElementById('percent');
+      const fill = document.getElementById('fill');
+      const bar = document.getElementById('progressbar');
+      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+      const stages = [
+        { at: 0, text: 'Initializing…' },
+        { at: 18, text: "injecting earl's magic" },
+        { at: 59, text: 'Preparing endgame menu…' },
+        { at: 100, text: 'Menu ready' }
       ];
-      const update=(p)=>{
-        p=Math.min(100,Math.max(0,Math.round(p)));
-        if(p!==shown){shown=p;fill.style.width=p+'%';percent.textContent=p+'%';bar.setAttribute('aria-valuenow',String(p));}
-        const current=phases.find(x=>p<x.until)||phases[phases.length-1];
-        if(current.title!==phaseShown){phase.textContent=current.title;note.textContent=current.note;phaseShown=current.title;}
-      };
-      function step(now){
-        if(realProgress!==null){update(realProgress);requestAnimationFrame(step);return;}
-        let elapsed=now-started;
-        if(elapsed>length+hold){started=now;elapsed=0;}
-        const t=Math.min(1,elapsed/length);
-        // Cosmetic progress when the host does not supply real loading data.
-        const value=(t>=1)?100:(8+92*(1-Math.pow(1-t,1.55)));
-        update(value);
-        requestAnimationFrame(step);
+      const duration = 15500;
+      const hold = 1800;
+      let started = performance.now();
+      let frame;
+      let shown;
+
+      function render(progress, isDemo = false) {
+        const stage = stages.findLast(item => item.at <= progress);
+        const value = isDemo && reducedMotion.matches ? stage.at : progress;
+        const whole = Math.floor(value);
+        fill.style.transform = 'scaleX(' + value / 100 + ')';
+        if (whole !== shown) {
+          percent.textContent = whole + '%';
+          bar.setAttribute('aria-valuenow', String(whole));
+          shown = whole;
+        }
+        if (phase.textContent !== stage.text) phase.textContent = stage.text;
       }
-      // Optional integration: window.endgameLoader.setProgress(85)
-      // or window.postMessage({type:'endgame:progress',progress:85}, '*').
-      // Clearing with setProgress(null) resumes the looping visual demo.
-      window.endgameLoader={
-        setProgress(p){if(p===null||p===undefined){realProgress=null;started=performance.now();return;} const n=Number(p);if(Number.isFinite(n))realProgress=Math.max(0,Math.min(100,n));},
-        reset(){realProgress=null;started=performance.now();},
-        complete(){realProgress=100;}
-      };
-      window.addEventListener('message',event=>{
-        const d=event.data;
-        if(!d||typeof d!=='object'||d.type!=='endgame:progress')return;
-        window.endgameLoader.setProgress(d.progress);
+
+      function step(now) {
+        const elapsed = Math.max(0, now - started) % (duration + hold);
+        render(Math.min(100, elapsed / duration * 100), true);
+        frame = requestAnimationFrame(step);
+      }
+
+      function reset() {
+        cancelAnimationFrame(frame);
+        started = performance.now();
+        step(started);
+      }
+
+      function setProgress(progress) {
+        if (progress == null) {
+          reset();
+          return;
+        }
+        const value = Number(progress);
+        if (Number.isFinite(value)) {
+          cancelAnimationFrame(frame);
+          render(Math.min(100, Math.max(0, value)));
+        }
+      }
+
+      window.endgameLoader = { setProgress, reset, complete: () => setProgress(100) };
+      window.addEventListener('message', event => {
+        if (event.data?.type === 'endgame:progress') setProgress(event.data.progress);
       });
-      requestAnimationFrame(step);
+      reset();
     })();
   </script>
 </body>
