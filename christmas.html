@@ -3,87 +3,197 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="ENDGAME — EXRL loading screen.">
-  <title>ENDGAME — EXRL</title>
+  <title>ENDGAME — Christmas loader</title>
   <style>
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      background: transparent;
-      font-family: Consolas, "Courier New", monospace;
-      color: #f3f9f5;
-    }
-    .scene {
+    html, body { margin: 0; background: transparent; }
+
+    #endgame-holiday {
+      --cream: #fff7d9;
+      --outline: #371d29;
       position: fixed;
       inset: 0;
       display: grid;
       place-items: center;
+      overflow: hidden;
       isolation: isolate;
+      background: rgba(0, 0, 0, .28);
+      color: var(--cream);
+      font-family: system-ui, sans-serif;
     }
-    .scene::before {
+    #endgame-holiday *, #endgame-holiday *::before, #endgame-holiday *::after {
+      box-sizing: border-box;
+    }
+    #endgame-holiday .holiday-hud {
+      position: relative;
+      width: min(82%, 420px);
+      text-align: center;
+    }
+    #endgame-holiday .masthead {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 -7%;
+    }
+    #endgame-holiday h1 {
+      display: inline-block;
+      flex: 0 0 auto;
+      margin: 0;
+      color: #ffcc54;
+      font: italic 1000 clamp(30px, 6vw, 53px)/1.08 "Arial Black", "Segoe UI Black", system-ui, sans-serif;
+      letter-spacing: -.065em;
+      transform: rotate(-3deg);
+      -webkit-text-stroke: 3px var(--outline);
+      paint-order: stroke fill;
+      text-shadow: 0 2px 0 #ed772e, 0 4px 0 #9c3035, 0 6px 0 var(--outline);
+    }
+    #endgame-holiday .lights {
+      position: relative;
+      display: block;
+      flex: 1;
+      height: 24px;
+      border-bottom: 2px solid #17443b;
+      border-radius: 0 0 52% 52%;
+      transform: rotate(8deg);
+    }
+    #endgame-holiday .lights:last-child { transform: scaleX(-1) rotate(8deg); }
+    #endgame-holiday .lights i {
+      --light: #ffca78;
+      position: absolute;
+      display: block;
+      width: 6px;
+      height: 9px;
+      top: 82%;
+      left: 12%;
+      border-radius: 45% 45% 60% 60%;
+      background: var(--light);
+      box-shadow: 0 -2px #17443b, 0 0 6px color-mix(in srgb, var(--light) 65%, transparent);
+      transform: rotate(-12deg);
+    }
+    #endgame-holiday .lights i:nth-child(2) { --light: #ef6868; left: 49%; top: 99%; transform: rotate(8deg); }
+    #endgame-holiday .lights i:nth-child(3) { --light: #80dfc6; left: 85%; top: 79%; transform: rotate(18deg); }
+
+    #endgame-holiday .art {
+      display: grid;
+      place-items: center;
+      position: relative;
+      margin: 12px auto 10px;
+    }
+    #endgame-holiday .art img {
+      display: block;
+      width: 91%;
+      height: min(186px, 32vh, 35vw);
+      object-fit: contain;
+      filter: drop-shadow(0 3px 1px rgba(35, 19, 26, .36));
+    }
+    #endgame-holiday .twinkle {
+      position: absolute;
+      width: 9px;
+      aspect-ratio: 1;
+      background: #ffe8ad;
+      clip-path: polygon(50% 0, 61% 37%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 37%);
+    }
+    #endgame-holiday .twinkle:first-child { top: 27%; left: 0; }
+    #endgame-holiday .twinkle:last-child { top: 55%; right: 1%; width: 7px; }
+    #endgame-holiday .ribbon { position: relative; }
+    #endgame-holiday .bar {
+      position: relative;
+      height: 10px;
+      overflow: hidden;
+      border: 2px solid var(--outline);
+      border-radius: 20px;
+      background: rgba(51, 34, 43, .66);
+      box-shadow: 0 1px 0 rgba(255, 245, 212, .65), 0 2px 3px rgba(42, 21, 29, .35);
+    }
+    #endgame-holiday .fill {
+      height: 100%;
+      border-radius: inherit;
+      background: repeating-linear-gradient(122deg, #fffbec 0 8px, #d84153 8px 16px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .65);
+      clip-path: inset(0 100% 0 0 round 12px);
+    }
+    #endgame-holiday .holly {
+      position: absolute;
+      width: 20px;
+      height: 16px;
+      left: -13px;
+      top: -2px;
+      filter: drop-shadow(0 1px 1px rgba(20, 40, 28, .8));
+    }
+    #endgame-holiday .holly:last-child { left: auto; right: -13px; transform: scaleX(-1); }
+    #endgame-holiday .holly::before, #endgame-holiday .holly::after {
       content: "";
       position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.28);
-      pointer-events: none;
+      width: 16px;
+      height: 10px;
+      left: -1px;
+      top: -1px;
+      background: linear-gradient(16deg, #247252 46%, #84bc79 49%, #408857 54%);
+      clip-path: polygon(0 0, 33% 14%, 41% 0, 55% 25%, 74% 21%, 76% 44%, 100% 87%, 77% 85%, 66% 100%, 45% 77%, 27% 85%, 23% 63%, 10% 64%);
     }
-    .loading {
-      position: relative;
-      width: min(360px, 78%);
-      text-shadow: 0 1px 3px #000, 0 0 10px rgba(0, 0, 0, 0.65);
+    #endgame-holiday .holly::after { top: 6px; left: 0; transform: scaleY(-1) rotate(8deg); }
+    #endgame-holiday .holly i {
+      position: absolute;
+      z-index: 1;
+      width: 5px;
+      height: 5px;
+      background: #f56466;
+      border-radius: 100%;
+      right: 0;
+      top: 4px;
+      box-shadow: -4px 3px #c93243, 0 5px #aa273d;
     }
-    .menu-name {
-      margin: 0 0 22px;
-      font: 600 26px/1 "Arial Narrow", system-ui, sans-serif;
-      letter-spacing: 0.17em;
-    }
-    .bar {
-      height: 3px;
-      overflow: hidden;
-      background: rgba(211, 232, 223, 0.35);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-    }
-    .fill {
-      height: 100%;
-      background: #72f5c2;
-      transform: scaleX(0);
-      transform-origin: left;
-    }
-    .status-row {
+    #endgame-holiday .status-row {
       display: flex;
-      justify-content: space-between;
       align-items: baseline;
-      gap: 12px;
-      margin-top: 13px;
-      font-size: 13px;
-      line-height: 1.5;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 11px;
+      color: #fffaef;
+      text-align: left;
+      font: 600 clamp(12px, 2.2vw, 14px)/1.5 Consolas, "Courier New", monospace;
+      text-shadow: 0 1px 2px #201821, 0 1px 5px #201821;
     }
-    #percent {
-      color: #a1ffda;
-      font-variant-numeric: tabular-nums;
+    #endgame-holiday .percent { color: #ffdfa0; font-variant-numeric: tabular-nums; }
+    @media (max-height: 330px) {
+      #endgame-holiday .art { margin-block: 5px 7px; }
+      #endgame-holiday h1 { font-size: 28px; }
     }
   </style>
 </head>
 <body>
-  <main class="scene" aria-label="EXRL Endgame loading screen">
-    <section class="loading" aria-labelledby="menu-name">
-      <h1 class="menu-name" id="menu-name">ENDGAME</h1>
-      <div class="bar" id="progressbar" role="progressbar" aria-label="Menu loading progress"
-           aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-        <div class="fill" id="fill"></div>
+  <main id="endgame-holiday" aria-label="ENDGAME loading screen">
+    <section class="holiday-hud" aria-labelledby="holiday-name">
+      <div class="masthead">
+        <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+        <h1 id="holiday-name">ENDGAME</h1>
+        <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+      </div>
+      <div class="art" aria-hidden="true">
+        <i class="twinkle"></i>
+        <img src="./christmas-chase.svg" alt="">
+        <i class="twinkle"></i>
+      </div>
+      <div class="ribbon">
+        <div class="bar" role="progressbar" aria-label="Menu loading progress"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="fill"></div>
+        </div>
+        <span class="holly" aria-hidden="true"><i></i></span>
+        <span class="holly" aria-hidden="true"><i></i></span>
       </div>
       <div class="status-row">
-        <span id="phase" role="status">Initializing…</span>
-        <span id="percent" aria-hidden="true">0%</span>
+        <span class="phase" role="status">Initializing…</span>
+        <span class="percent" aria-hidden="true">0%</span>
       </div>
     </section>
   </main>
   <script>
     (() => {
-      const phase = document.getElementById('phase');
-      const percent = document.getElementById('percent');
-      const fill = document.getElementById('fill');
-      const bar = document.getElementById('progressbar');
+      const root = document.getElementById('endgame-holiday');
+      const phase = root.querySelector('.phase');
+      const percent = root.querySelector('.percent');
+      const fill = root.querySelector('.fill');
+      const bar = root.querySelector('.bar');
       const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
       const stages = [
         { at: 0, text: 'Initializing…' },
@@ -93,7 +203,7 @@
       ];
       const duration = 4300;
       const hold = 1800;
-      let started = performance.now();
+      let started;
       let frame;
       let shown;
 
@@ -101,7 +211,7 @@
         const stage = stages.findLast(item => item.at <= progress);
         const value = isDemo && reducedMotion.matches ? stage.at : progress;
         const whole = Math.floor(value);
-        fill.style.transform = 'scaleX(' + value / 100 + ')';
+        fill.style.clipPath = 'inset(0 ' + (100 - value) + '% 0 0 round 12px)';
         if (whole !== shown) {
           percent.textContent = whole + '%';
           bar.setAttribute('aria-valuenow', String(whole));
@@ -111,6 +221,7 @@
       }
 
       function step(now) {
+        if (!root.isConnected) return;
         const elapsed = Math.max(0, now - started) % (duration + hold);
         render(Math.min(100, elapsed / duration * 100), true);
         frame = requestAnimationFrame(step);
