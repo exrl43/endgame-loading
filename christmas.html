@@ -5,11 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="ENDGAME — EXRL loading screen.">
   <title>ENDGAME — EXRL</title>
-  <script>
-    if (window.self !== window.top || new URLSearchParams(location.search).has('overlay')) {
-      document.documentElement.classList.add('overlay');
-    }
-  </script>
   <style>
     * { box-sizing: border-box; }
     html, body {
@@ -24,9 +19,6 @@
       display: grid;
       place-items: center;
       isolation: isolate;
-    }
-    html:not(.overlay) .scene {
-      background: #08060d url("./exrl_crew.png") center / contain no-repeat;
     }
     .scene::before {
       content: "";
